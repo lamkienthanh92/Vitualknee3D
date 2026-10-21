@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it and the data sources listed in DATA_SOURCES.md."
+title: "Virtual Knee 3D: browser-based teaching and anterolateral reconstruction planning built on Vietnamese anatomical reference values"
+type: software
+license: MIT
+version: 1.3.0
+date-released: 2026-10-20
+authors:
+  - family-names: "[Family name]"
+    given-names: "[Given names]"
+    affiliation: "[Institution]"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+identifiers:
+  - type: doi
+    value: "[Zenodo DOI, added after the first release]"

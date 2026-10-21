@@ -1,0 +1,19 @@
+parameter,value
+between-laboratory factor h (geometric mean),0.8855194031008824
+SD of log h,0.2632993127076147
+"graft effect c, ALLR (geometric mean)",1.3685773372084813
+SD of log c,0.664282669542473
+LET multiplier m,1.296927146880289
+SD of log m,0.3676923205783546
+virtual knees per procedure,20000.0
+torque (N·m),5.0
+under-constrained threshold (°),2.0
+over-constrained threshold (°),-2.0
+"h, Geeslin 2018b",0.7909980792162408
+"h, Delaloye 2020",0.7337248694810028
+"h, Noyes 2017",1.196425267856977
+"c, Delaloye",1.0
+"c, Geeslin",2.9353282143104558
+"c, Noyes",0.8732756751894749
+"m, Delaloye",1.0
+"m, Geeslin",1.6820200243150465

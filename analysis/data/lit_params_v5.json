@@ -1,0 +1,782 @@
+{
+ "_version": "v0.5 – 2026-10-01",
+ "_note": "Mỗi mục có 'source' (trích từ đâu) và 'use' (calibration = hiệu chỉnh mô hình; validation = chỉ dùng để kiểm định; descriptive = chỉ báo cáo). Số liệu trích từ abstract hoặc bảng toàn văn như ghi trong 'extracted_from'.",
+ "Geeslin2018": {
+  "source": "Geeslin AG et al. Am J Sports Med 2018;46(6):1352-61. Robotic sectioning study of ALL and Kaplan fibers",
+  "extracted_from": "toàn văn Table 2 (PDF trong thư mục bai bs hung)",
+  "method": "robot 6DOF",
+  "preservation": "fresh-frozen",
+  "n_per_sequence": 10,
+  "torque_Nm": 5,
+  "use": "calibration",
+  "angles": [
+   0,
+   15,
+   30,
+   45,
+   60,
+   75,
+   90
+  ],
+  "seq1": {
+   "Intact": [
+    [
+     8.9,
+     2.5
+    ],
+    [
+     15.6,
+     3.5
+    ],
+    [
+     20.4,
+     4.3
+    ],
+    [
+     21.7,
+     4.7
+    ],
+    [
+     21.4,
+     4.9
+    ],
+    [
+     20.3,
+     4.7
+    ],
+    [
+     20.1,
+     4.3
+    ]
+   ],
+   "ACL": [
+    [
+     11.6,
+     3.1
+    ],
+    [
+     17.9,
+     3.9
+    ],
+    [
+     21.7,
+     4.5
+    ],
+    [
+     22.4,
+     4.8
+    ],
+    [
+     21.8,
+     5.0
+    ],
+    [
+     20.8,
+     4.8
+    ],
+    [
+     20.4,
+     4.3
+    ]
+   ],
+   "ACL+ALL": [
+    [
+     11.8,
+     3.1
+    ],
+    [
+     18.2,
+     4.0
+    ],
+    [
+     22.0,
+     4.5
+    ],
+    [
+     22.8,
+     4.9
+    ],
+    [
+     22.1,
+     5.0
+    ],
+    [
+     21.2,
+     4.8
+    ],
+    [
+     20.9,
+     4.3
+    ]
+   ],
+   "ACL+ALL+KAP": [
+    [
+     12.0,
+     3.2
+    ],
+    [
+     18.3,
+     4.1
+    ],
+    [
+     22.2,
+     4.5
+    ],
+    [
+     23.4,
+     4.9
+    ],
+    [
+     23.4,
+     5.1
+    ],
+    [
+     22.8,
+     4.9
+    ],
+    [
+     22.5,
+     4.3
+    ]
+   ]
+  },
+  "seq2": {
+   "Intact": [
+    [
+     9.8,
+     2.5
+    ],
+    [
+     15.8,
+     3.2
+    ],
+    [
+     20.7,
+     4.8
+    ],
+    [
+     22.0,
+     6.3
+    ],
+    [
+     21.6,
+     8.0
+    ],
+    [
+     20.4,
+     8.6
+    ],
+    [
+     19.8,
+     8.7
+    ]
+   ],
+   "ACL": [
+    [
+     12.3,
+     3.1
+    ],
+    [
+     17.9,
+     3.4
+    ],
+    [
+     21.9,
+     4.8
+    ],
+    [
+     22.7,
+     6.3
+    ],
+    [
+     21.9,
+     8.1
+    ],
+    [
+     20.8,
+     8.7
+    ],
+    [
+     20.2,
+     8.6
+    ]
+   ],
+   "ACL+KAP": [
+    [
+     12.4,
+     3.1
+    ],
+    [
+     18.3,
+     3.4
+    ],
+    [
+     22.3,
+     4.8
+    ],
+    [
+     23.5,
+     6.3
+    ],
+    [
+     23.5,
+     7.8
+    ],
+    [
+     22.9,
+     8.8
+    ],
+    [
+     22.4,
+     9.1
+    ]
+   ],
+   "ACL+KAP+ALL": [
+    [
+     12.5,
+     3.1
+    ],
+    [
+     18.6,
+     3.4
+    ],
+    [
+     22.6,
+     4.8
+    ],
+    [
+     24.3,
+     6.2
+    ],
+    [
+     24.2,
+     7.7
+    ],
+    [
+     23.6,
+     8.8
+    ],
+    [
+     23.0,
+     9.0
+    ]
+   ]
+  }
+ },
+ "Huser2017_ACLintact": {
+  "source": "Huser LE, Noyes FR et al. Arthroscopy 2017;33(3):595-604",
+  "extracted_from": "toàn văn Table 2 (PDF trong thư mục)",
+  "method": "robot 6DOF",
+  "preservation": "fresh-frozen",
+  "n": 19,
+  "age": "55±13",
+  "torque_Nm": 5,
+  "use": "calibration",
+  "ITB_definition": "sợi sâu bao khớp–xương (deep capsulo-osseous) của DCC",
+  "angles": [
+   25,
+   60,
+   90
+  ],
+  "ci": "90%",
+  "dIR_vs_intact": {
+   "ALL": [
+    [
+     0.3,
+     0.0,
+     0.6
+    ],
+    [
+     0.6,
+     0.1,
+     1.1
+    ],
+    [
+     0.5,
+     0.1,
+     0.9
+    ]
+   ],
+   "ITB": [
+    [
+     0.7,
+     0.2,
+     1.2
+    ],
+    [
+     3.0,
+     1.9,
+     4.1
+    ],
+    [
+     2.2,
+     1.5,
+     2.9
+    ]
+   ],
+   "ALL+ITB": [
+    [
+     1.7,
+     1.2,
+     2.2
+    ],
+    [
+     4.5,
+     3.7,
+     5.3
+    ],
+    [
+     3.9,
+     3.2,
+     4.6
+    ]
+   ]
+  }
+ },
+ "Lee2023_meta_ALL_in_ACLdef": {
+  "source": "Lee DH, Kim CH, Kim TH, Kim SG. Arthroscopy 2023;39(7):1692-1701 (meta-analysis cadaver)",
+  "extracted_from": "abstract",
+  "method": "meta-analysis (robot/navigation hỗn hợp)",
+  "use": "calibration",
+  "angles": [
+   30,
+   60,
+   90
+  ],
+  "ci": "95%",
+  "dIR_ALL_after_ACL": [
+   [
+    2.24,
+    1.39,
+    3.09
+   ],
+   [
+    2.77,
+    1.88,
+    3.67
+   ],
+   [
+    2.29,
+    1.42,
+    3.15
+   ]
+  ],
+  "clinical_threshold_deg": 2.0
+ },
+ "Rasmussen2016": {
+  "source": "Rasmussen MT et al. Am J Sports Med 2016;44(3):585-92 (Part 1)",
+  "extracted_from": "abstract",
+  "method": "robot 6DOF",
+  "preservation": "fresh-frozen",
+  "n": 10,
+  "torque_Nm": 5,
+  "use": "validation + ước lượng SD hiệu số",
+  "angles": "gộp 0–120°",
+  "ci": "95%",
+  "dIR_ACL+ALL_vs_intact": [
+   3.2,
+   2.4,
+   4.1
+  ],
+  "dIR_ALL_vs_ACL": [
+   2.7,
+   1.8,
+   3.6
+  ]
+ },
+ "Noyes2017_ACLR": {
+  "source": "Noyes FR, Huser LE et al. Am J Sports Med 2017;45(5):1018-27",
+  "extracted_from": "abstract",
+  "method": "robot 6DOF",
+  "preservation": "fresh-frozen",
+  "n": 7,
+  "torque_Nm": 5,
+  "use": "validation",
+  "angles": [
+   60,
+   90
+  ],
+  "ci": "95%",
+  "dIR_ALL+ITB_after_ACLR": [
+   [
+    5.1,
+    3.6,
+    6.7
+   ],
+   [
+    6.7,
+    4.3,
+    9.1
+   ]
+  ]
+ },
+ "Noyes2017_ACLdef": {
+  "source": "Noyes FR, Huser LE et al. (PubMed 28196032), robot, fresh-frozen, n=14",
+  "extracted_from": "abstract",
+  "use": "descriptive",
+  "note": "Tăng xoay sau cắt ALL+ITB trên gối mất ACL dao động 1–12°, 21% gối tăng 8–12°: biến thiên giữa các gối rất lớn"
+ },
+ "RSA2017_KSSTA": {
+  "source": "Knee Surg Sports Traumatol Arthrosc 2017, doi:10.1007/s00167-017-4500-3 (RSA)",
+  "extracted_from": "abstract",
+  "method": "radiostereometry (RSA)",
+  "use": "descriptive",
+  "angles": [
+   0,
+   30,
+   60
+  ],
+  "dIR_ALL_after_ACL": [
+   1.0,
+   1.6,
+   2.5
+  ]
+ },
+ "Freitas2025_manual": {
+  "source": "Freitas GLS et al. Rev Bras Ortop 2025, doi:10.1055/s-0045-1811633",
+  "extracted_from": "abstract",
+  "method": "xoay bằng tay + thước đo góc (giống VN)",
+  "preservation": "fresh",
+  "n": 38,
+  "donors": "19 xác nam, tuổi TB 28",
+  "angle": 90,
+  "use": "calibration (hệ số lệch phương pháp đo tay)",
+  "sequence": [
+   "ACL",
+   "ITT",
+   "ALL"
+  ],
+  "pct_increase_each_step": {
+   "ACL": 55.6,
+   "ITT": 31.6,
+   "ALL": 27.8
+  },
+  "pct_cumulative_vs_intact": {
+   "ACL+ITT": 104,
+   "ACL+ITT+ALL": 162
+  }
+ },
+ "Kittl2016_forceshare": {
+  "source": "Kittl C et al. Am J Sports Med 2016;44(2):345-54",
+  "extracted_from": "abstract",
+  "method": "robot, superposition (tỷ lệ mô-men chịu)",
+  "n": "8 ACL còn + 8 ACL mất",
+  "use": "descriptive (thước đo khác: % mô-men chịu ở quỹ đạo gối lành, không phải % độ cứng mất)",
+  "superficial_ITT_share_pct_90deg": {
+   "ACL_intact": [
+    56,
+    20
+   ],
+   "ACL_def": [
+    56,
+    16
+   ]
+  },
+  "deep_ITT_share_pct_30deg": {
+   "ACL_intact": [
+    26,
+    9
+   ],
+   "ACL_def": [
+    33,
+    12
+   ]
+  },
+  "ALL_and_capsule": "không đóng góp có ý nghĩa"
+ },
+ "materials": {
+  "ALL_geometry_Claes2013": {
+   "w_jl": 6.7,
+   "thick": 1.3
+  },
+  "ALL_ultimate_load_Kennedy2015_N": [
+   175,
+   139,
+   211
+  ],
+  "ALL_ultimate_stress_Zens2015_MPa": [
+   32.78,
+   4.04
+  ],
+  "ACL_Woo1991": {
+   "young_load_N": 2160,
+   "young_stiff_Nmm": 242,
+   "old_load_N": 658,
+   "old_stiff_Nmm": 180
+  }
+ },
+ "assumptions": {
+  "sd_paired_diff_deg": {
+   "value": 1.6,
+   "derivation": "Rasmussen 2016: SE=(3.6-1.8)/3.92=0.46 → SD≈0.46·√10=1.45°; Huser 2017 ALL+ITB: SD≈1.9–2.1° (90%CI, n=19). Lấy 1.6° cho Geeslin (cùng phòng thí nghiệm với Rasmussen). Thay giả định 0,6° của v0.1."
+  },
+  "cv_between_knee": {
+   "ALL": 0.5,
+   "KAP": 0.95,
+   "ITB": 0.95,
+   "derivation": "CV = SD hiệu số / trung bình: Rasmussen ALL 1.45/2.7=0.54; Huser ALL+ITB 0.47–0.48; Huser ITB riêng 0.97. Thay giả định CV 50% chung của v0.1."
+  },
+  "huser_baseline": {
+   "value": "θ nguyên vẹn nội suy từ Geeslin 2018",
+   "status": "VẪN LÀ GIẢ ĐỊNH – Huser không công bố trị số xoay tuyệt đối; hai nghiên cứu cùng robot, cùng 5 Nm"
+  },
+  "ACLR_restore_fraction": [
+   0.8,
+   1.0
+  ],
+  "muscle_stiffness_gain": [
+   1.23,
+   2.5
+  ],
+  "clinical_thresholds_deg": [
+   1.4,
+   2.0
+  ],
+  "LET_to_ALLR_stiffness_ratio": {
+   "value": "ước lượng từ Geeslin 2017 + Delaloye 2020 (xem procedures)",
+   "status": "thay giả định 1,5–2,5 của v0.3"
+  },
+  "graft_cv": {
+   "value": 0.4,
+   "status": "ước từ thanh sai số Hình 4 Geeslin 2017 (SD ≈ 3° trên mức hiệu chỉnh ≈ 7°)"
+  },
+  "overconstraint_threshold_deg": -2.0,
+  "between_study_heterogeneity": {
+   "method": "hệ số h (mức mất độ cứng trước ngoài) và c (mức hiệu chỉnh của mảnh ghép) khác nhau giữa các phòng thí nghiệm; ước lượng phân phối log-chuẩn từ các nghiên cứu, kiểm định bỏ-một-nghiên-cứu"
+  },
+  "between_study_sd_floor": {
+   "value": 0.25,
+   "status": "GIẢ ĐỊNH – sàn cho SD(log) giữa phòng thí nghiệm khi chỉ còn 2 nghiên cứu trong kiểm định bỏ-một (ước SD từ 2 điểm không tin cậy)"
+  }
+ },
+ "procedures": {
+  "ALLR_meta_vs_ACLR": {
+   "source": "Meta-analysis biomechanical ACLR+ALLR vs ACLR (PMC8237218)",
+   "extracted_from": "abstract",
+   "use": "calibration (độ cứng mảnh ghép ALLR)",
+   "dIR_reduction_deg": [
+    1.64,
+    1.3,
+    1.98
+   ],
+   "ci": "95%",
+   "angles": "gộp"
+  },
+  "Noyes2017_ALLR": {
+   "source": "Noyes FR et al. Am J Sports Med 2017;45(5):1018-27",
+   "extracted_from": "abstract",
+   "n": 7,
+   "use": "validation",
+   "note": "ALLR đưa xoay về trong khoảng chênh so với trạng thái tái tạo ACL (DCTN/DCC còn nguyên)",
+   "angles": [
+    60,
+    90
+   ],
+   "diff_vs_ACLR_state": [
+    [
+     0.5,
+     -1.9,
+     2.9
+    ],
+    [
+     0.7,
+     -2.0,
+     3.4
+    ]
+   ],
+   "ci": "95%"
+  },
+  "Geeslin2017": {
+   "source": "Geeslin AG et al. Am J Sports Med 2017, doi:10.1177/0363546517745268",
+   "n": "10 cặp gối (mỗi góc cố định 10 gối)",
+   "extracted_from": "số hoá từ Hình 4 (PDF trong thư mục) bằng phân tích điểm ảnh; sai số đọc ≈ ±0,1°",
+   "use": "calibration",
+   "metric": "tăng xoay trong so với gối lành (°), 5 Nm; ACLR = tái tạo ACL khi DCTN + Kaplan đã cắt",
+   "angles": [
+    0,
+    15,
+    30,
+    45,
+    60,
+    75,
+    90
+   ],
+   "SD_approx_deg": {
+    "ACLR": "1–2",
+    "ALLR/LET": "≈2.5–4 (đọc ước lượng từ thanh sai số)"
+   },
+   "fix30": {
+    "ACLR": [
+     0.1,
+     0.61,
+     1.07,
+     1.79,
+     2.65,
+     3.52,
+     3.32
+    ],
+    "ALLR20": [
+     -0.56,
+     -0.87,
+     -2.76,
+     -3.21,
+     -3.62,
+     -3.27,
+     -4.49
+    ],
+    "ALLR40": [
+     -0.56,
+     -1.43,
+     -3.32,
+     -3.93,
+     -4.29,
+     -4.64,
+     -6.28
+    ],
+    "LET20": [
+     -1.38,
+     -3.06,
+     -4.85,
+     -6.33,
+     -7.19,
+     -8.06,
+     -9.8
+    ]
+   },
+   "fix70": {
+    "ACLR": [
+     -0.71,
+     -0.2,
+     0.61,
+     1.68,
+     2.91,
+     3.93,
+     4.03
+    ],
+    "ALLR20": [
+     -1.58,
+     -2.3,
+     -4.34,
+     -4.64,
+     -4.54,
+     -5.66,
+     -4.9
+    ],
+    "ALLR40": [
+     -1.68,
+     -3.06,
+     -5.15,
+     -6.12,
+     -6.12,
+     -7.96,
+     -7.3
+    ],
+    "LET20": [
+     -1.94,
+     -2.6,
+     -4.39,
+     -4.8,
+     -6.48,
+     -6.17,
+     -6.07
+    ]
+   }
+  },
+  "LET_meta2026": {
+   "source": "PubMed 41656666 (meta-analysis cadaver ALLR vs LET)",
+   "extracted_from": "abstract",
+   "use": "descriptive",
+   "note": "LET chống xoay tốt hơn ALLR ở mọi góc; ALLR đưa về gần gối lành; LET quá chặt có ý nghĩa ở 30° và 60°"
+  },
+  "Jette2019": {
+   "source": "Jette C et al. Knee 2019;26(5):1003-9 (PubMed 31427244), n=12, máy thử nghiệm",
+   "extracted_from": "abstract",
+   "use": "descriptive (kiểm tra)",
+   "note": "ALLR và LET đưa về mức gối lành ở 0° và 30°, quá chặt khoảng 3° (±2SD) ở 60° và 90°; LET có xu hướng quá chặt hơn, khác biệt không ý nghĩa",
+   "overconstraint_60_90_deg": -3.0
+  },
+  "Delaloye2020": {
+   "source": "Delaloye JR et al. Arthroscopy 2020, doi:10.1016/j.arthro.2020.03.027; robot 6DOF, fresh-frozen, n=6",
+   "extracted_from": "abstract",
+   "use": "calibration",
+   "ACLR_residual_pooled_deg": [
+    1.98,
+    1.06
+   ],
+   "n": 6,
+   "note": "ALLR và LET đều đưa xoay về gối lành, không quá chặt → mức hiệu chỉnh c ≈ 1 (ước từ mô tả abstract, chưa có trị số)",
+   "c_ALLR_assumed": [
+    1.0,
+    0.25
+   ],
+   "m_LET_assumed": [
+    1.0,
+    0.15
+   ]
+  },
+  "Knee2024_LET": {
+   "source": "The Knee 2024 (S0968-0160(24)00021-8)",
+   "extracted_from": "abstract",
+   "use": "descriptive",
+   "note": "Tái tạo ACL còn dư xoay ở 45–90°; thêm LET đưa về gần bình thường ở 45–90°, ALLR vẫn còn dư"
+  }
+ },
+ "muscle": {
+  "Wojtys2003_active_gain": {
+   "source": "Wojtys EM et al. J Bone Joint Surg Am 2003;85(5):782-9 (gối người sống, kích hoạt tối đa cơ quanh gối, 30° và 60°)",
+   "extracted_from": "tóm tắt thứ cấp (eOrthopod) – CẦN đối chiếu toàn văn JBJS",
+   "pct_increase_max": {
+    "nam": 218,
+    "nu": 178
+   },
+   "use": "calibration"
+  },
+  "Hsu2006_sex_passive": {
+   "source": "Hsu WH et al. Am J Sports Med 2006 (82 gối xác, robot)",
+   "extracted_from": "abstract",
+   "torsional_stiffness_Nm_per_deg": {
+    "nu": 0.79,
+    "nam": 1.06
+   },
+   "female_to_male": 0.745,
+   "use": "calibration"
+  },
+  "Koga2010_injury_timing": {
+   "source": "Koga H et al. Am J Sports Med 2010;38(11):2218-25 (10 ca đứt ACL trên video)",
+   "extracted_from": "abstract",
+   "knee_flexion_at_IC_deg": 23,
+   "IR_first_40ms_deg": [
+    8,
+    2,
+    14
+   ],
+   "injury_time_ms": 40,
+   "use": "descriptive (khung thời gian chấn thương)"
+  },
+  "reaction_time_rot_perturbation_ms": {
+   "source": "JMR (kne-publishing) – phản xạ cơ quanh gối với xoay mặt đỡ",
+   "extracted_from": "abstract",
+   "value": [
+    124,
+    151
+   ]
+  },
+  "EMD_ms": {
+   "source": "Hannah R et al. – EMD cơ đùi",
+   "extracted_from": "abstract",
+   "hamstrings": 44.0,
+   "quadriceps": 22.6
+  },
+  "assumptions": {
+   "stiffness_linear_in_activation": "GIẢ ĐỊNH – độ cứng cơ tăng tuyến tính theo mức kích hoạt (%MVC)",
+   "preactivation_levels": [
+    0,
+    0.1,
+    0.25,
+    0.5
+   ],
+   "preactivation_note": "chưa có số liệu kích hoạt trước tiếp đất cho động tác xoay; chạy dạng quét kịch bản",
+   "gain_sd": 0.4
+  }
+ }
+}

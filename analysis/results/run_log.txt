@@ -1,0 +1,89 @@
+Run started 2026-10-05T15:16:29
+PART 1  Vietnamese cadaveric study
+  ALL present 22/22 (95% CI 84.6–100.0%), vs pooled Asian 45.8%: p = 3.5e-08
+  ALL attached to lateral meniscus: 22/22
+  Kaplan fibres: 21/22
+  Deep ITB layer: 22/22
+  ITB–ALL fibre continuity (code 2): 21/22
+                         variable  n    mean     sd   ci_lo   ci_hi  reference       source   diff       p
+Origin to lateral epicondyle (mm) 21  12.657  3.479  11.074  14.241      5.471 Kennedy 2015  7.186 7.9e-09
+ Insertion to Gerdy tubercle (mm) 22  16.014  1.837  15.199  16.828     21.600   Claes 2013 -5.586 2.8e-12
+ Insertion to Gerdy tubercle (mm) 22  16.014  1.837  15.199  16.828     23.900     Cai 2017 -7.886 3.3e-15
+   Insertion to fibular head (mm) 22  15.845  1.961  14.976  16.715     23.200   Claes 2013 -7.355 4.8e-14
+   Insertion to fibular head (mm) 22  15.845  1.961  14.976  16.715     23.800     Cai 2017 -7.955 1.0e-14
+                  Insertion ratio 22   0.503  0.031   0.489   0.516      0.482   Claes 2013  0.021  0.0045
+                  Insertion ratio 22   0.503  0.031   0.489   0.516      0.501     Cai 2017  0.002    0.78
+                  ALL length (mm) 21  46.324  3.390  44.781  47.867     39.800 Hohmann 2025  6.524 2.5e-08
+                  ALL length (mm) 21  46.324  3.390  44.781  47.867     44.800     Cai 2017  1.524   0.053
+         Width at joint line (mm) 22   5.523  0.651   5.234   5.811      6.700   Claes 2013 -1.177 3.2e-08
+         Width at joint line (mm) 22   5.523  0.651   5.234   5.811      5.600 Hohmann 2025 -0.077    0.58
+                   Thickness (mm) 21   0.767  0.171   0.689   0.845      1.600  Totlis 2024 -0.833 1.3e-15
+                   Thickness (mm) 21   0.767  0.171   0.689   0.845      1.300   Claes 2013 -0.533 6.0e-12
+              Width at femur (mm) 22   7.536  1.663   6.799   8.274        NaN          NaN    NaN        
+              Width at tibia (mm) 22   7.523  0.893   7.127   7.919        NaN          NaN    NaN        
+          Femoral footprint (mm2) 22  58.500  7.295  55.266  61.734        NaN          NaN    NaN        
+           Tibial footprint (mm2) 22  61.727  8.903  57.780  65.674        NaN          NaN    NaN        
+                   ITB width (mm) 22  25.618  3.216  24.192  27.044        NaN          NaN    NaN        
+               ITB thickness (mm) 22   1.432  0.352   1.276   1.588        NaN          NaN    NaN        
+              ITB footprint (mm2) 22 266.295 32.847 251.732 280.859        NaN          NaN    NaN        
+  10 mm LET strip uses 39% of the ITB width
+  Internal rotation reliability: ICC 0.91–0.99; pooled SEM 0.87°; MDC95 2.41°; identical triplicates 53%; whole numbers 100%
+ angle          step  n  mean_deg  ci_lo  ci_hi       p  n_above_MDC  pct_of_intact
+     0 ITB sectioned 20      6.60   4.68   8.52 8.0e-07           19          28.48
+     0     ALL added 20      4.03   2.31   5.76 1.0e-04           11          18.54
+     0     ITB + ALL 20     10.63   8.21  13.06 2.1e-08           19          47.02
+    30 ITB sectioned 20      5.83   3.99   7.68 2.5e-06           17          23.64
+    30     ALL added 20      4.73   3.27   6.20 1.9e-06           16          19.53
+    30     ITB + ALL 20     10.57   8.25  12.89 1.1e-08           19          43.17
+    60 ITB sectioned 20      7.07   5.47   8.67 1.9e-08           18          27.76
+    60     ALL added 20      4.00   2.90   5.09 3.3e-07           15          16.07
+    60     ITB + ALL 20     11.07   9.14  13.00 2.6e-10           19          43.83
+    90 ITB sectioned 20      6.42   4.19   8.64 8.2e-06           17          24.79
+    90     ALL added 20      5.10   3.78   6.42 1.4e-07           17          19.98
+    90     ITB + ALL 20     11.52   9.37  13.66 7.9e-10           20          44.78
+
+PART 2  Population rotation model
+  between-laboratory factor h = 0.89 (SD log 0.26); graft effect c = 1.37 (SD log 0.66); LET multiplier m = 1.30
+        study  angle  observed  predicted  pi_lo  pi_hi  within
+Geeslin 2018b     60      2.78       3.95   1.83  10.04    True
+Geeslin 2018b     90      3.68       3.93   1.81  10.33    True
+Delaloye 2020 pooled      1.98       2.73   1.46   5.85    True
+   Noyes 2017     60      5.10       3.40   1.90   6.60    True
+   Noyes 2017     90      6.70       2.99   1.68   5.73   False
+  within 95% PI: 4/5
+              over               restored                under              
+angle           30     60     90       30     60     90     30     60     90
+procedure                                                                   
+ACLR         0.000  0.000  0.000    0.511  0.246  0.268  0.489  0.754  0.732
+ACLR + ALLR  0.203  0.302  0.296    0.762  0.606  0.615  0.035  0.092  0.089
+ACLR + LET   0.316  0.421  0.407    0.658  0.508  0.526  0.027  0.071  0.067
+
+PART 3  Geometry on the template knee
+                                                          check      reference                 model  agrees
+                             Helito 2014: epicondylar ALL 0–90°         +16.7%                 +8.7%   False
+                               Zens 2015: per degree of flexion       +0.15%/°              +0.10%/°   False
+                         Zens 2015: 90° + 25° internal rotation   +33.8 ± 9.6%             27 to 41%    True
+Imbert 2016: proximal-posterior / epicondylar / anterior-distal        −, +, + -15.5 / +8.7 / +30.9%    True
+                           Dodds 2014: proximal-posterior 0–60° near-isometric                 -0.6%    True
+                     Kittl 2015: LET deep vs superficial to LCL   deep smaller         10.2% vs 7.3%   False
+  Vietnamese ring 12.7 mm: best 345° (3.1 mm, 7.0%), worst 210° (15.4 mm, 61.1%); ≤2 mm: 0/24; ≤4 mm: 4/24
+  ring minusSD: best 2.0 mm
+  ring plusSD: best 2.6 mm
+  Western origin: 2.1 mm (5.6%)
+  Gerdy–fibular head 51.6 mm; ratio insertion 25.9 mm from Gerdy; 16 mm point lies 9.6 mm away
+  Vietnamese origin | Vietnamese ratio: range 7.0%
+  Western origin | Vietnamese ratio: range 5.3%
+  Vietnamese origin | Vietnamese 16 mm: range 16.1%
+  Western origin | Vietnamese 16 mm: range 5.7%
+  Vietnamese origin | Western 21.6 mm: range 11.6%
+  Western origin | Western 21.6 mm: range 4.8%
+  +15° internal rotation lengthens graft: 30° 9.1%, 60° 13.2%, 90° 16.2%
+  fixation at 0°: max +7.0%, min +0.0%
+  fixation at 30°: max +3.3%, min -3.4%
+  fixation at 60°: max +0.3%, min -6.3%
+  fixation at 90°: max +3.9%, min -3.0%
+  tunnels (ACL exit 8 mm): cortex 3.5 mm; deep 4.4 / 7.5 / 8.1 mm at 0/30/45°
+  ACL exit 0 mm: deep 4.8–9.2 mm, cortex 4.1 mm
+  ACL exit 15 mm: deep 8.0–12.3 mm, cortex 9.5 mm
+
+All outputs saved to ./outputs/

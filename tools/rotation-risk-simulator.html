@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gối ảo – mô phỏng xoay trong sau tái tạo ACL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4F3; --panel:#FFFFFF; --ink:#18282C; --muted:#5A6B70; --line:#D5DCDB;
+  --corridor:#E3EDE6; --corridor-edge:#9DBFA6;
+  --c-none:#8C969A; --c-aclr:#4E6670; --c-allr:#0E6B6B; --c-let:#A8701A;
+  --loose:#C9A227; --ok:#3F8F6B; --over:#B5483B;
+  --focus:#0E6B6B;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121A1C; --panel:#1A2427; --ink:#E4ECEB; --muted:#9AAAAD; --line:#2E3C3F;
+    --corridor:#1E3328; --corridor-edge:#3F6E52;
+    --c-none:#7D888C; --c-aclr:#9DB3BC; --c-allr:#3FB7B0; --c-let:#E0A64A;
+    --loose:#D9B544; --ok:#5DBF92; --over:#E07A6C; --focus:#3FB7B0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121A1C; --panel:#1A2427; --ink:#E4ECEB; --muted:#9AAAAD; --line:#2E3C3F;
+  --corridor:#1E3328; --corridor-edge:#3F6E52;
+  --c-none:#7D888C; --c-aclr:#9DB3BC; --c-allr:#3FB7B0; --c-let:#E0A64A;
+  --loose:#D9B544; --ok:#5DBF92; --over:#E07A6C; --focus:#3FB7B0;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 48px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin-bottom:22px}
+h1{font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;font-size:clamp(1.45rem,2.6vw,2rem);line-height:1.2;margin:0;max-width:30ch}
+.sub{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.badge{font-size:.82rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 12px;white-space:nowrap}
+.grid{display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
+.controls fieldset{border:0;margin:0 0 18px;padding:0}
+.controls fieldset:last-child{margin-bottom:0}
+legend{font-weight:600;font-size:.95rem;margin-bottom:8px;padding:0}
+.hint{color:var(--muted);font-size:.82rem;margin:4px 0 0}
+label.opt{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer}
+label.opt input{margin-top:4px;accent-color:var(--c-allr)}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{flex:1;border:0;background:transparent;color:var(--ink);font:inherit;padding:7px 4px;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--panel);font-weight:600}
+select{width:100%;font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 8px}
+input[type=range]{width:100%;accent-color:var(--c-allr)}
+.rangeval{font-variant-numeric:tabular-nums;font-weight:600}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.chartbox{padding:14px 14px 6px}
+.charthead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;align-items:baseline;padding:4px 6px 8px}
+.charthead h2{font-size:1.05rem;margin:0;font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.85rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:18px;height:3px;border-radius:2px;display:inline-block}
+.sw.dash{background:repeating-linear-gradient(90deg,var(--c-none) 0 4px,transparent 4px 7px)}
+svg text{font-family:"IBM Plex Sans",system-ui,sans-serif}
+.chartscroll{overflow-x:auto}
+#chart{min-width:560px;display:block}
+.results{margin-top:20px}
+.results h2{font-size:1.05rem;margin:0 0 4px;font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+@media (max-width:640px){.cards{grid-template-columns:1fr}}
+.card{border-top:4px solid var(--c);padding:12px 2px 0}
+.card h3{margin:0;font-size:.98rem;font-weight:600}
+.big{font-family:"IBM Plex Serif",Georgia,serif;font-size:2rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1;margin:8px 0 2px}
+.big small{font-family:"IBM Plex Sans",sans-serif;font-size:.85rem;font-weight:400;color:var(--muted)}
+.bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:10px 0 6px;background:var(--line)}
+.bar i{display:block;height:100%}
+.split{display:flex;justify-content:space-between;font-size:.82rem;font-variant-numeric:tabular-nums;gap:6px}
+.split b{font-weight:600}
+.note{margin-top:18px;font-size:.88rem;color:var(--muted)}
+details{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+summary{cursor:pointer;font-weight:600}
+details ul{padding-left:18px;margin:10px 0 0}
+details li{margin:4px 0;font-size:.88rem}
+.disclaimer{margin-top:24px;font-size:.84rem;color:var(--muted);max-width:80ch}
+.warn{color:var(--over);font-weight:600}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>Gối ảo: xoay trong sau tái tạo ACL khi có tổn thương trước ngoài</h1>
+    <p class="sub">Chọn kiểu tổn thương và đặc điểm bệnh nhân. Công cụ chạy 6.000 gối ảo cho từng phương án mổ và cho thấy bao nhiêu gối còn lỏng, đạt, hay quá chặt so với gối lành.</p>
+  </div>
+  <span class="badge">Mô hình in silico v0.5 · chưa kiểm định lâm sàng</span>
+</header>
+
+<div class="grid">
+  <aside class="panel controls" aria-label="Thiết lập ca">
+    <fieldset>
+      <legend>Tổn thương kèm đứt ACL</legend>
+      <label class="opt"><input type="checkbox" id="injALL" checked><span>Dây chằng trước ngoài (DCTN)</span></label>
+      <label class="opt"><input type="checkbox" id="injKAP" checked><span>Sợi Kaplan (lớp sâu dải chậu chày)</span></label>
+      <p class="hint">Bỏ chọn cả hai để xem trường hợp đứt ACL đơn thuần.</p>
+    </fieldset>
+    <fieldset>
+      <legend>Giới</legend>
+      <div class="seg" role="group" aria-label="Giới">
+        <button type="button" data-sex="m" aria-pressed="true">Nam</button>
+        <button type="button" data-sex="f" aria-pressed="false">Nữ</button>
+      </div>
+      <p class="hint">Gối nữ có độ cứng xoay thụ động thấp hơn khoảng 25%.</p>
+    </fieldset>
+    <fieldset>
+      <legend>Co cơ trước tiếp đất: <span class="rangeval" id="alphaVal">0%</span> MVC</legend>
+      <input type="range" id="alpha" min="0" max="50" step="5" value="0" aria-describedby="alphaHint">
+      <p class="hint" id="alphaHint">0% là điều kiện thụ động như trên xác. Trong 40 ms đầu khi chấn thương, chỉ phần cơ đã co sẵn mới bảo vệ được gối.</p>
+    </fieldset>
+    <fieldset>
+      <legend>Độ căng mảnh ghép ngoài khớp</legend>
+      <select id="graft" aria-label="Giả định độ căng mảnh ghép">
+        <option value="avg">Trung bình y văn</option>
+        <option value="weak">Lỏng (như Inderhaug 2017, Spencer 2015)</option>
+        <option value="strong">Căng (như Geeslin 2017, Schon 2016)</option>
+      </select>
+      <p class="hint">Y văn khác nhau nhiều nhất ở điểm này; nên xem cả ba giả định.</p>
+    </fieldset>
+    <fieldset>
+      <legend>Góc gấp để đọc kết quả: <span class="rangeval" id="angVal">60°</span></legend>
+      <input type="range" id="ang" min="0" max="6" step="1" value="4" aria-label="Góc gấp gối">
+    </fieldset>
+  </aside>
+
+  <main>
+    <section class="panel chartbox" aria-label="Biểu đồ theo góc gấp">
+      <div class="charthead">
+        <h2>Tăng xoay trong so với gối lành, theo góc gấp</h2>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="chartscroll"><svg id="chart" viewBox="0 0 720 340" width="100%" role="img" aria-label="Trung vị và khoảng tứ phân vị của tăng xoay trong cho từng phương án"></svg></div>
+    </section>
+
+    <section class="results" aria-live="polite">
+      <h2 id="resTitle">Kết quả ở 60° gấp</h2>
+      <div class="cards" id="cards"></div>
+      <p class="note" id="untreated"></p>
+    </section>
+
+    <details>
+      <summary>Mô hình và nguồn số liệu</summary>
+      <ul>
+        <li>Mỗi cấu trúc là một lò xo xoay mắc song song; cắt hoặc đứt cấu trúc nào thì bỏ phần độ cứng của nó. Mô-men thử 5 N·m.</li>
+        <li>Gối lành, phần gánh của ACL và sợi Kaplan: Geeslin 2018 (robot, 20 gối). Phần gánh của DCTN: phân tích gộp Lee 2023 (30–90°).</li>
+        <li>Khác biệt giữa phòng thí nghiệm và hiệu quả mảnh ghép: Geeslin 2017, Noyes 2017, Delaloye 2020 (kiểm định bỏ-một-nghiên-cứu đạt 4/5 điểm).</li>
+        <li>Tỷ số độ cứng LET/ALLR: Geeslin 2017 và Delaloye 2020 (gộp 1,30).</li>
+        <li>Co cơ: Wojtys 2003 (tăng độ cứng tối đa nam 218%, nữ 178%); khác biệt giới thụ động: Hsu 2006; khung thời gian chấn thương: Koga 2010.</li>
+        <li>Dữ liệu xác người Việt (22 gối, formalin) dùng để đối chiếu tỷ lệ đóng góp của dải chậu chày và DCTN; kết quả nằm trong biên độ các nghiên cứu robot và navigation.</li>
+        <li>Ngưỡng: còn lỏng khi tăng xoay trên 2°, quá chặt khi giảm quá 2° so với gối lành.</li>
+      </ul>
+    </details>
+
+    <p class="disclaimer">Công cụ mô phỏng phục vụ nghiên cứu và hỗ trợ cân nhắc kỹ thuật mổ. Kết quả là phân bố trên quần thể gối ảo, không phải dự báo cho một bệnh nhân cụ thể, và không thay thế đánh giá lâm sàng. Mô hình tĩnh, tuyến tính, dựa chủ yếu trên nghiên cứu xác; chưa được kiểm định trên người bệnh.</p>
+  </main>
+</div>
+</div>
+
+<script>
+(function(){
+const T=5, N=6000, ANG=[0,15,30,45,60,75,90];
+const avg=(a,b)=>a.map((v,i)=>(v+b[i])/2);
+const s1={I:[8.9,15.6,20.4,21.7,21.4,20.3,20.1],A:[11.6,17.9,21.7,22.4,21.8,20.8,20.4],AL:[11.8,18.2,22.0,22.8,22.1,21.2,20.9],ALK:[12.0,18.3,22.2,23.4,23.4,22.8,22.5],sdI:[2.5,3.5,4.3,4.7,4.9,4.7,4.3]};
+const s2={I:[9.8,15.8,20.7,22.0,21.6,20.4,19.8],A:[12.3,17.9,21.9,22.7,21.9,20.8,20.2],AK:[12.4,18.3,22.3,23.5,23.5,22.9,22.4],AKL:[12.5,18.6,22.6,24.3,24.2,23.6,23.0],sdI:[2.5,3.2,4.8,6.3,8.0,8.6,8.7]};
+const thI=avg(s1.I,s2.I), thA=avg(s1.A,s2.A), sdI=avg(s1.sdI,s2.sdI);
+const dALLg=ANG.map((_,i)=>((s1.AL[i]-s1.A[i])+(s2.AKL[i]-s2.AK[i]))/2);
+const dKAP=ANG.map((_,i)=>((s1.ALK[i]-s1.AL[i])+(s2.AK[i]-s2.A[i]))/2);
+const lee={a:[30,60,90],m:[2.24,2.77,2.29],se:[(3.09-1.39)/3.92,(3.67-1.88)/3.92,(3.15-1.42)/3.92]};
+const interp=(x,xs,ys)=>{if(x<=xs[0])return ys[0];for(let k=1;k<xs.length;k++)if(x<=xs[k]){const t=(x-xs[k-1])/(xs[k]-xs[k-1]);return ys[k-1]+t*(ys[k]-ys[k-1]);}return ys[ys.length-1];};
+const sdd=1.6;
+const dALL=ANG.map((a,i)=>a<30?dALLg[i]:interp(a,lee.a,lee.m));
+const seALL=ANG.map((a,i)=>a<30?sdd/Math.sqrt(20):interp(a,lee.a,lee.se));
+const seKAP=sdd/Math.sqrt(20), CV_ALL=0.5, CV_KAP=0.95;
+const H={mu:Math.log(0.89),sd:0.27};
+const GRAFT={avg:{mu:Math.log(1.37),sd:0.66},weak:{mu:Math.log(0.6),sd:0.3},strong:{mu:Math.log(2.9),sd:0.3}};
+const M_LET={mu:Math.log(1.30),sd:0.37}, GRAFT_CV=0.4;
+const SEX={m:{k:1.0,g:2.18},f:{k:0.745,g:1.78}}, GAIN_SD=0.4;
+
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function gauss(r){let u=0,v=0;while(u===0)u=r();while(v===0)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+const frac=(i,prev,d)=>thI[i]/prev-thI[i]/(prev+d);
+
+function simulate(cfg){
+  const r=rng(2026), g=GRAFT[cfg.graft], sx=SEX[cfg.sex], alpha=cfg.alpha/100;
+  const opts=["none","aclr","allr","let"], out={}; opts.forEach(o=>out[o]=ANG.map(()=>new Float64Array(N)));
+  for(let n=0;n<N;n++){
+    const e=0.8+0.2*r();
+    const h=Math.exp(H.mu+H.sd*gauss(r));
+    const z=Math.max(0.1,1+GRAFT_CV*gauss(r));
+    const c=Math.exp(g.mu+g.sd*gauss(r))*z;
+    const m=Math.exp(M_LET.mu+M_LET.sd*gauss(r));
+    const gain=Math.max(0,sx.g+GAIN_SD*gauss(r));
+    for(let i=0;i<ANG.length;i++){
+      const th0=Math.max(3,thI[i]+sdI[i]*gauss(r)), K0=T/th0*sx.k, Km=K0*gain*alpha;
+      const fACL=1-thI[i]/thA[i];
+      let fAL=0;
+      const dA=Math.max(0,(dALL[i]+seALL[i]*gauss(r))*(1+CV_ALL*gauss(r)));
+      const dK=Math.max(0,(dKAP[i]+seKAP*gauss(r))*(1+CV_KAP*gauss(r)));
+      if(cfg.all&&cfg.kap) fAL=frac(i,thA[i],dA)+frac(i,thA[i]+dALL[i],dK);
+      else if(cfg.all) fAL=frac(i,thA[i],dA);
+      else if(cfg.kap) fAL=frac(i,thA[i],dK);
+      fAL*=h;
+      // mảnh ghép có độ cứng riêng, không phụ thuộc mức tổn thương của bệnh nhân:
+      // c = 1 tương ứng bù đúng phần độ cứng của DCTN + Kaplan ở gối trung bình
+      const fRef=h*(frac(i,thA[i],dALL[i])+frac(i,thA[i]+dALL[i],dKAP[i]));
+      const base=T/(K0+Km);
+      const d=f=>T/Math.max(1e-3,K0*(1-f)+Km)-base;
+      out.none[i][n]=d(fACL+fAL);
+      out.aclr[i][n]=d((1-e)*fACL+fAL);
+      out.allr[i][n]=d((1-e)*fACL+fAL-c*fRef);
+      out.let[i][n]=d((1-e)*fACL+fAL-c*m*fRef);
+    }
+  }
+  const q=(arr,p)=>{const s=Float64Array.from(arr).sort();return s[Math.min(s.length-1,Math.floor(p*s.length))];};
+  const res={};
+  for(const o of opts){
+    res[o]=out[o].map(arr=>{let lo=0,ov=0;for(const v of arr){if(v>2)lo++;else if(v<-2)ov++;}
+      return{med:q(arr,.5),q1:q(arr,.25),q3:q(arr,.75),loose:lo/N,over:ov/N,ok:1-(lo+ov)/N};});
+  }
+  return res;
+}
+
+const LAB={none:"Chưa mổ",aclr:"Tái tạo ACL đơn thuần",allr:"Tái tạo ACL + ALLR",let:"Tái tạo ACL + LET"};
+const COL={none:"--c-none",aclr:"--c-aclr",allr:"--c-allr",let:"--c-let"};
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const fmt=(x,d=1)=>(x>=0?"+":"−")+Math.abs(x).toFixed(d).replace(".",",");
+const pct=x=>Math.round(x*100)+"%";
+
+const state={all:true,kap:true,sex:"m",alpha:0,graft:"avg",ai:4};
+let RES=null;
+
+function drawChart(){
+  const svg=document.getElementById("chart"), W=720,Hh=340, L=56,R=20,Tp=16,B=44;
+  const all=[];["none","aclr","allr","let"].forEach(o=>RES[o].forEach(p=>{all.push(p.q1,p.q3)}));
+  let ymin=Math.min(-4,Math.floor(Math.min(...all))), ymax=Math.max(4,Math.ceil(Math.max(...all)));
+  const x=a=>L+(a/90)*(W-L-R), y=v=>Tp+(ymax-v)/(ymax-ymin)*(Hh-Tp-B);
+  let s=`<rect x="${L}" y="${y(2)}" width="${W-L-R}" height="${y(-2)-y(2)}" fill="${css('--corridor')}"/>`;
+  s+=`<line x1="${L}" x2="${W-R}" y1="${y(2)}" y2="${y(2)}" stroke="${css('--corridor-edge')}" stroke-dasharray="3 3"/>`;
+  s+=`<line x1="${L}" x2="${W-R}" y1="${y(-2)}" y2="${y(-2)}" stroke="${css('--corridor-edge')}" stroke-dasharray="3 3"/>`;
+  s+=`<text x="${W-R-6}" y="${y(2)-6}" text-anchor="end" font-size="11" fill="${css('--muted')}">còn lỏng</text>`;
+  s+=`<text x="${W-R-6}" y="${y(-2)+14}" text-anchor="end" font-size="11" fill="${css('--muted')}">quá chặt</text>`;
+  s+=`<text x="${L+8}" y="${y(2)+14}" font-size="11" fill="${css('--muted')}">vùng đạt (±2°)</text>`;
+  for(let v=2*Math.ceil(ymin/2);v<=ymax;v+=2){s+=`<text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="${css('--muted')}">${v>0?"+"+v:v}°</text>`;}
+  s+=`<line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" stroke="${css('--line')}"/>`;
+  ANG.forEach((a,i)=>{s+=`<text x="${x(a)}" y="${Hh-B+20}" text-anchor="middle" font-size="11" fill="${css('--muted')}">${a}°</text>`;});
+  s+=`<text x="${(L+W-R)/2}" y="${Hh-6}" text-anchor="middle" font-size="12" fill="${css('--muted')}">Góc gấp gối</text>`;
+  const sel=ANG[state.ai];
+  s+=`<line x1="${x(sel)}" x2="${x(sel)}" y1="${Tp}" y2="${Hh-B}" stroke="${css('--ink')}" stroke-opacity=".25"/>`;
+  ["none","aclr","allr","let"].forEach(o=>{
+    const col=css(COL[o]), P=RES[o];
+    if(o!=="none"){
+      const up=P.map((p,i)=>`${x(ANG[i])},${y(p.q3)}`).join(" "), dn=P.map((p,i)=>`${x(ANG[i])},${y(p.q1)}`).reverse().join(" ");
+      s+=`<polygon points="${up} ${dn}" fill="${col}" fill-opacity=".14"/>`;
+    }
+    s+=`<polyline points="${P.map((p,i)=>`${x(ANG[i])},${y(p.med)}`).join(" ")}" fill="none" stroke="${col}" stroke-width="${o==="none"?1.6:2.4}" ${o==="none"?'stroke-dasharray="5 4"':''}/>`;
+    P.forEach((p,i)=>{if(i===state.ai&&o!=="none")s+=`<circle cx="${x(ANG[i])}" cy="${y(p.med)}" r="4.5" fill="${col}"/>`;});
+  });
+  svg.innerHTML=s;
+  document.getElementById("legend").innerHTML=["aclr","allr","let","none"].map(o=>`<span><i class="sw ${o==="none"?"dash":""}" style="${o==="none"?"":"background:var("+COL[o]+")"}"></i>${LAB[o]}</span>`).join("");
+}
+
+function drawCards(){
+  const i=state.ai, a=ANG[i];
+  document.getElementById("resTitle").textContent=`Kết quả ở ${a}° gấp`;
+  document.getElementById("cards").innerHTML=["aclr","allr","let"].map(o=>{
+    const p=RES[o][i];
+    return `<article class="card" style="--c:var(${COL[o]})">
+      <h3>${LAB[o]}</h3>
+      <p class="big">${fmt(p.med)}°<small> trung vị</small></p>
+      <div class="bar" aria-hidden="true"><i style="width:${p.loose*100}%;background:var(--loose)"></i><i style="width:${p.ok*100}%;background:var(--ok)"></i><i style="width:${p.over*100}%;background:var(--over)"></i></div>
+      <div class="split"><span>Còn lỏng <b>${pct(p.loose)}</b></span><span>Đạt <b>${pct(p.ok)}</b></span><span>Quá chặt <b>${pct(p.over)}</b></span></div>
+    </article>`;}).join("");
+  const u=RES.none[i];
+  let txt=`Nếu chưa mổ, gối xoay trong thêm khoảng ${fmt(u.med)}° so với gối lành ở ${a}°; ${pct(u.loose)} gối ảo vượt ngưỡng 2°.`;
+  if(!state.all&&!state.kap) txt+=` Với đứt ACL đơn thuần, thêm thủ thuật ngoài khớp chủ yếu làm tăng nguy cơ quá chặt.`;
+  document.getElementById("untreated").textContent=txt;
+}
+
+function run(){RES=simulate(state);drawChart();drawCards();}
+
+document.getElementById("injALL").addEventListener("change",e=>{state.all=e.target.checked;run();});
+document.getElementById("injKAP").addEventListener("change",e=>{state.kap=e.target.checked;run();});
+document.querySelectorAll("[data-sex]").forEach(b=>b.addEventListener("click",()=>{
+  state.sex=b.dataset.sex;document.querySelectorAll("[data-sex]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));run();}));
+const al=document.getElementById("alpha");al.addEventListener("input",()=>{state.alpha=+al.value;document.getElementById("alphaVal").textContent=al.value+"%";run();});
+document.getElementById("graft").addEventListener("change",e=>{state.graft=e.target.value;run();});
+const an=document.getElementById("ang");an.addEventListener("input",()=>{state.ai=+an.value;document.getElementById("angVal").textContent=ANG[state.ai]+"°";drawChart();drawCards();});
+if(window.matchMedia)window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>RES&&drawChart());
+run();
+})();
+</script>
+</body>
+</html>
