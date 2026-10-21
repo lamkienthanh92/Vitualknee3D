@@ -47,6 +47,8 @@ details.sub{margin-top:0;border-top:1px solid var(--line);padding-top:10px}detai
 .pf input[type=number],.pf select{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink)}
 .flag{font-size:.84rem;padding:6px 8px;border-left:3px solid var(--amber);background:var(--bg);margin:6px 0;border-radius:4px}.flag.ok{border-color:var(--ok)}
 #printSummary{display:none}
+.fileHidden{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.filePick{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}.fileName{font-size:.82rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+#viewEmpty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#c9d3d6;text-align:center;padding:20px}#viewEmpty .btn{font-size:1rem;padding:10px 18px}#viewEmpty p{margin:0;max-width:440px;font-size:.9rem;line-height:1.5}
 /* workspace chrome */
 body.focus .app{grid-template-columns:1fr}body.focus aside{display:none}body.focus #plotBox,body.focus #hud,body.focus .help{display:none!important}
 #modebar{position:absolute;left:50%;top:10px;transform:translateX(-50%);display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px;z-index:9;box-shadow:0 2px 10px rgba(0,0,0,.15)}
@@ -252,7 +254,8 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <section id="paneScan" class="hidden">
     <p class="hint" style="margin-top:0">Load the knee CT or MRI exported from the hospital CD or PACS (a .zip of the DICOM folder, or the files themselves). Images are read on this computer and never uploaded; patient names, IDs and birth dates are ignored.</p>
     <fieldset>
-      <input type="file" id="scanFile" multiple accept=".zip,.dcm,application/dicom,application/zip,*/*">
+      <input type="file" id="scanFile" class="fileHidden" multiple accept=".zip,.dcm,application/dicom,application/zip,*/*">
+      <div class="filePick"><button type="button" class="btn" data-for="scanFile">📂 Choose DICOM files…</button><span class="fileName" id="scanFileName">No file chosen</span></div>
       <p class="hint" id="scanStatus"></p>
     </fieldset>
     <div id="scanTools" class="hidden">
@@ -282,7 +285,8 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
       <div class="slider"><div class="top"><span>Bone threshold</span><b id="pbTV">250 HU</b></div><input type="range" id="pbT" min="120" max="500" step="10" value="250"></div>
       <button type="button" id="pbExtract" class="btn">🪄 Build 3D knee (CT: extract bones · MRI: match bone shapes)</button>
       <div style="margin-top:8px;font-size:.84rem">or load STL files <select id="stlLPS" style="width:auto;padding:2px 4px"><option value="lps">LPS (3D Slicer default)</option><option value="ras">RAS</option></select></div>
-      <input type="file" id="stlFile" multiple accept=".stl">
+      <input type="file" id="stlFile" class="fileHidden" multiple accept=".stl">
+      <div class="filePick"><button type="button" class="btn" data-for="stlFile">📂 Choose STL files…</button><span class="fileName" id="stlFileName">No file chosen</span></div>
       <p class="hint" id="pbStatus"></p>
       <div id="pbList"></div>
       <div id="pbFit"></div>
@@ -352,6 +356,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
     <button type="button" id="autoBtn" class="ib" title="Build the 3D knee automatically" aria-label="Build 3D knee">🪄</button>
     <canvas id="vcan" style="cursor:crosshair;max-width:100%"></canvas>
     <div id="vgrid" hidden></div>
+    <div id="viewEmpty"><div style="font-size:42px">🩻</div><button type="button" class="btn" data-for="scanFile">📂 Choose DICOM files…</button><p>Load a knee CT or MRI exported from the hospital CD or PACS (a .zip of the DICOM folder, or the files themselves). Files are read on this computer and never uploaded.</p></div>
     <div id="vInfo" style="color:#c9d3d6;font-size:.82rem"></div>
   </div>
   <div id="labels"></div>
@@ -1001,7 +1006,7 @@ function updateScanPlane(){const s=SCAN_ST.cur,R=SCAN_ST.reg;if(!s||!R||!SCAN_ST
   scanPlane.geometry.dispose();scanPlane.geometry=g;const tex=new THREE.CanvasTexture(SCAN_ST.lastCanvas);if(scanPlane.material.map)scanPlane.material.map.dispose();scanPlane.material.map=tex;scanPlane.material.needsUpdate=true;
   scanPlane.visible=SCAN_ST.show3d&&S.mode==='scan';}
 function oriName(v){const a=v.map(Math.abs);return a[0]>a[1]&&a[0]>a[2]?'sagittal':a[1]>a[2]?'coronal':'axial';}
-function selectSeries(i){const s=SCAN_ST.series[i];
+function selectSeries(i){setTimeout(()=>typeof viewEmptySync==='function'&&viewEmptySync(),0);const s=SCAN_ST.series[i];
   if(SCAN_ST.cur&&Object.keys(SCAN_ST.lm).length&&s.frame!==SCAN_ST.cur.frame){SCAN_ST.lm={};SCAN_ST.active='LFE';renderLmList();computeScan();$('seriesWarn').textContent='This series was acquired in a different position (another scanning session), so the landmarks were cleared. Place all landmarks within one session.';}else $('seriesWarn').textContent='';SCAN_ST.cur=s;SCAN_ST.wl=null;buildVolume(s);
   $('planeSel').innerHTML=`<option value="native">${s.ori} (as acquired)</option>`+(s.is3D?`<option value="A">${oriName(s.r)} (reformatted)</option><option value="B">${oriName(s.c)} (reformatted)</option>`:'');SCAN_ST.plane='native';
   const D=planeDims(s,'native');SCAN_ST.idx=Math.floor(D.n/2);$('vSlice').max=D.n-1;$('vSlice').value=SCAN_ST.idx;
@@ -1397,6 +1402,10 @@ function gridOn(on){
   setTimeout(gridRender,0);
 }
 $('gridBtn').addEventListener('click',()=>gridOn(!GRID.on));
+document.querySelectorAll('[data-for]').forEach(b=>b.addEventListener('click',()=>$(b.dataset.for).click()));
+['scanFile','stlFile'].forEach(id=>$(id).addEventListener('change',e=>{const f=[...e.target.files];$(id+'Name').textContent=f.length?(f.length===1?f[0].name:f.length+' files'):'No file chosen';},true));
+function viewEmptySync(){const has=!!SCAN_ST.cur;$('viewEmpty').style.display=has?'none':'flex';$('vcan').style.visibility=has?'visible':'hidden';$('vInfo').style.visibility=has?'visible':'hidden';$('gridBtn').style.display=has?'':'none';$('autoBtn').style.display=has?'':'none';}
+$('scanFile').addEventListener('change',()=>setTimeout(viewEmptySync,50));
 $('autoBtn').addEventListener('click',()=>$('pbExtract').click());
 window.addEventListener('resize',()=>{if(GRID.on)gridRender();});
 
@@ -1503,7 +1512,7 @@ function mfOutline(ctx,s,k,sx,sy,plane){
       const tol=plane==='A'?1.2/s.ps[1]:plane==='B'?1.2/s.ps[0]:Math.min(0.5,1.2/s.sp);if(Math.abs(kk-k)>tol)continue;ctx.fillRect((x+0.5)*sx-1,(y+0.5)*sy-1,2,2);}}}
 
 function setTab(m){if(m==='teach'&&typeof PB!=='undefined'&&PB.active)setPatientMode(false);S.mode=m;[['tabTeach','teach','paneTeach'],['tabPlan','plan','panePlan'],['tabVN','vn','paneVN'],['tabScan','scan','paneScan']].forEach(([t,mm,pn])=>{$(t).setAttribute('aria-selected',m===mm?'true':'false');$(pn).classList.toggle('hidden',m!==mm);});
-  $('plotBox').classList.toggle('hidden',m==='teach'||m==='scan');$('hud').classList.toggle('hidden',m!=='teach');$('viewer').classList.toggle('hidden',m!=='scan'||SCAN_ST.show3d||!SCAN_ST.cur);if(m!=='scan')scanPlane.visible=false;else if(SCAN_ST.cur&&!SCAN_ST.show3d)setTimeout(renderSlice,0);$('plotTitle').textContent=m==='vn'?'ALL length change across flexion (Vietnamese origin)':'Graft strain across flexion';clearLabels();if(m==='plan')syncPlanUI();update();modeSync();}
+  $('plotBox').classList.toggle('hidden',m==='teach'||m==='scan');$('hud').classList.toggle('hidden',m!=='teach');$('viewer').classList.toggle('hidden',m!=='scan'||SCAN_ST.show3d);if(m==='scan'){clearLabels();if(typeof viewEmptySync==='function')viewEmptySync();}if(m!=='scan')scanPlane.visible=false;else if(SCAN_ST.cur&&!SCAN_ST.show3d)setTimeout(renderSlice,0);$('plotTitle').textContent=m==='vn'?'ALL length change across flexion (Vietnamese origin)':'Graft strain across flexion';clearLabels();if(m==='plan')syncPlanUI();update();modeSync();}
 $('tabScan').onclick=()=>setTab('scan');$('tabTeach').onclick=()=>setTab('teach');$('tabPlan').onclick=()=>setTab('plan');$('tabVN').onclick=()=>setTab('vn');
 $('vnPhi').addEventListener('input',e=>{S.phi=+e.target.value;$('vnBest').checked=false;update();});
 ['vnBest','vnSD','vnMen','vnCont','planRing'].forEach(id=>$(id).addEventListener('change',update));
